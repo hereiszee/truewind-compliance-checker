@@ -1,7 +1,7 @@
 import streamlit as st
-import openai
+from openai import OpenAI
 
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 st.title("Truewind Nonprofit Compliance Checker")
 
@@ -11,7 +11,10 @@ category = st.selectbox("Category", ["Donation", "Expense", "Grant", "Other"])
 
 if st.button("Check Compliance"):
     prompt = f"Check if this nonprofit transaction complies with IRS/GAAP: Description: {desc}, Amount: {amount}, Category: {category}. Provide yes/no and brief explanation."
-    response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": prompt}])
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}]
+    )
     result = response.choices[0].message.content
     st.write(result)
     
