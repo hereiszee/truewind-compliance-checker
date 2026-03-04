@@ -12,7 +12,7 @@ category = st.selectbox("Category", ["Donation", "Expense", "Grant", "Other"])
 if st.button("Check Compliance"):
     prompt = f"Check if this nonprofit transaction complies with IRS/GAAP: Description: {desc}, Amount: {amount}, Category: {category}. Provide yes/no and brief explanation."
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}]
     )
     result = response.choices[0].message.content
